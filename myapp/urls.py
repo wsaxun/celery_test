@@ -21,4 +21,7 @@ urlpatterns = [
     url('^add/$', views.add),
     url('^add_task/$', views.add_task),
     url('^query/$', views.query),
+    url(r'^del_task/$', views.delete_task),
+    url(r'^task/$', views.query_task),
+    url(r'^change/$', views.change_task),
 ]

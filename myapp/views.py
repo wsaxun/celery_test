@@ -5,6 +5,7 @@ from django.core import serializers
 from django_celery_beat.models import IntervalSchedule, CrontabSchedule, \
     PeriodicTask
 from django_celery_results.models import TaskResult
+from celery.result import AsyncResult
 
 
 # Create your views here.
@@ -31,7 +32,7 @@ def get_or_create_interval(interval_type='SECONDS', interval=10):
     return result
 
 
-def get_or_create_crontab(crontab):
+def get_or_create_crontab(crontab): # '*/4 * * * *'
     crontab = crontab.strip()
     crontabs = crontab.split()
     result = CrontabSchedule.objects.get_or_create(minute=crontabs[0],
@@ -118,7 +119,7 @@ def test(request):
 def add_task(request):
     # schedule = get_or_create_interval(interval_type='SECONDS', interval=120)
     schedule = get_or_create_crontab('*/3 * * * *')
-    create_task(schedule, 'test-beat5', 'celeryConfig.tasks.add', 12, 12)
+    create_task(schedule, 'test-beat2', 'celeryConfig.tasks.add', 12, 12)
     return JsonResponse([1], safe=False)
 
 
@@ -161,4 +162,5 @@ def query(request):
     r = serializers.serialize('json',
                               TaskResult.objects.filter(task_id=task_id))
     r = json.loads(r)
+
     return JsonResponse(r, safe=False)

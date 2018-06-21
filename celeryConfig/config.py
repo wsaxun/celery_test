@@ -1,6 +1,7 @@
 class CeleryConfig(object):
     broker_url = 'redis://172.17.0.3:6379/0'
-    timezone = 'UTC'
+    timezone = 'Asia/Shanghai'
+    enable_utc = False
     # result_backend = 'redis://172.17.0.3:6379/1'
     result_backend = 'django-db'
     result_expires = 60 * 60 * 24 * 60
